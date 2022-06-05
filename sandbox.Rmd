@@ -5,7 +5,7 @@ output: html_notebook
 
 ```{r}
 roll <- function(n, d) {
-  values <- round(runif(n, min = 1, max = d)) # roll a d-sided die n times
+  values <- sample(1:d, n, replace = TRUE) # roll a d-sided die n times
   sum <- sum(values)
   result <- list(values, sum)
   names(result) <- c("values", "sum")
@@ -32,10 +32,55 @@ roll.stats <- function(n) {
   )
   return(df)
 }
+
+assign.race <- function() {
+  races <- c(
+    "dragonborn",
+    "dwarf",
+    "elf",
+    "gnome",
+    "half.elf",
+    "half.orc",
+    "halfling",
+    "human",
+    "tiefling"
+  )
+  return(sample(races, 1, replace = TRUE))
+}
 ```
 
 ```{r}
-roll.stats(100)
+set.seed(0)
+stats <- roll.stats(100)
+stats$race <- apply(stats, 1, function(i) assign.race())
+```
+
+```{r}
+name <- c("dragonborn", "dwarf", "efl", "gnome", "half.elf", "half.orc", "halfling", "human", "tiefling")
+speed <- c(30, 25, 30, 25, 30, 30, 25, 30, 30)
+strength <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
+dexterity <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
+constitution <- c(0, 2, 0, 0, 0, 1, 0, 1, 0)
+wisdom <- c(0, 0, 0, 0, 0, 0, 0, 1, 0)
+intelligence <- c(0, 0, 0, 2, 0, 0, 0, 1, 1)
+charisma <- c(1, 0, 0, 0, 2, 0, 0, 1, 2)
+random1 <- c(0, 0, 0, 0, 1, 0, 0, 0, 0)
+random2 <- c(0, 0, 0, 0, 1, 0, 0, 0, 0)
+
+races <- data.frame(
+  speed,
+  strength,
+  dexterity,
+  constitution,
+  wisdom,
+  intelligence,
+  charisma,
+  random1,
+  random2
+)
+
+rownames(races) <- name
+races
 ```
 
 
