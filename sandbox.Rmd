@@ -5,9 +5,16 @@ output: html_notebook
 
 ```{r}
 roll <- function(n, d) {
-  x <- round(runif(n, min = 1, max = d))
-  return(sum(x))
+  values <- round(runif(n, min = 1, max = d)) # roll a d-sided die n times
+  sum <- sum(values)
+  result <- list(values, sum)
+  names(result) <- c("values", "sum")
+  return(result)
 }
 
-roll(2, 10) 
+roll.stat <- function() {
+  result <- roll(4, 6) # roll 4d6
+  lowest <- min(result$values) # take the lowest 
+  return(result$sum - lowest) # and remove it from the sum 
+}
 ```

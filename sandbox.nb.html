@@ -1770,20 +1770,29 @@ pre code {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm9sbCA8LSBmdW5jdGlvbihuLCBkKSB7XG4gIHggPC0gcm91bmQocnVuaWYobiwgbWluID0gMSwgbWF4ID0gZCkpXG4gIHJldHVybihzdW0oeCkpXG59XG5cbnJvbGwoMiwgMTApXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm9sbCA8LSBmdW5jdGlvbihuLCBkKSB7XG4gIHZhbHVlcyA8LSByb3VuZChydW5pZihuLCBtaW4gPSAxLCBtYXggPSBkKSlcbiAgc3VtIDwtIHN1bSh2YWx1ZXMpXG4gIHJlc3VsdCA8LSBsaXN0KHZhbHVlcywgc3VtKVxuICBuYW1lcyhyZXN1bHQpIDwtIGMoXCJ2YWx1ZXNcIiwgXCJzdW1cIilcbiAgcmV0dXJuKHJlc3VsdClcbn1cblxucm9sbC5zdGF0IDwtIGZ1bmN0aW9uKCkge1xuICByZXN1bHQgPC0gcm9sbCg0LCA2KSAjIHJvbGwgNGQ2XG4gIGxvd2VzdCA8LSBtaW4ocmVzdWx0JHZhbHVlcykgIyB0YWtlIHRoZSBsb3dlc3QgXG4gIHJldHVybihyZXN1bHQkc3VtIC0gbG93ZXN0KSAjIGFuZCByZW1vdmUgaXQgZnJvbSB0aGUgc3VtIFxufVxuXG5yb2xsLnN0YXQoKVxuYGBgIn0= -->
 <pre class="r"><code>roll &lt;- function(n, d) {
-  x &lt;- round(runif(n, min = 1, max = d))
-  return(sum(x))
+  values &lt;- round(runif(n, min = 1, max = d))
+  sum &lt;- sum(values)
+  result &lt;- list(values, sum)
+  names(result) &lt;- c(&quot;values&quot;, &quot;sum&quot;)
+  return(result)
 }
 
-roll(2, 10)</code></pre>
+roll.stat &lt;- function() {
+  result &lt;- roll(4, 6) # roll 4d6
+  lowest &lt;- min(result$values) # take the lowest 
+  return(result$sum - lowest) # and remove it from the sum 
+}
+
+roll.stat()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE0XG4ifQ== -->
-<pre><code>[1] 14</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEzXG4ifQ== -->
+<pre><code>[1] 13</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNhbmRib3giDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCnJvbGwgPC0gZnVuY3Rpb24obiwgZCkgew0KICB4IDwtIHJvdW5kKHJ1bmlmKG4sIG1pbiA9IDEsIG1heCA9IGQpKQ0KICByZXR1cm4oc3VtKHgpKQ0KfQ0KDQpyb2xsKDIsIDEwKSANCmBgYA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNhbmRib3giDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCnJvbGwgPC0gZnVuY3Rpb24obiwgZCkgew0KICB2YWx1ZXMgPC0gcm91bmQocnVuaWYobiwgbWluID0gMSwgbWF4ID0gZCkpICMgcm9sbCBhIGQtc2lkZWQgZGllIG4gdGltZXMNCiAgc3VtIDwtIHN1bSh2YWx1ZXMpDQogIHJlc3VsdCA8LSBsaXN0KHZhbHVlcywgc3VtKQ0KICBuYW1lcyhyZXN1bHQpIDwtIGMoInZhbHVlcyIsICJzdW0iKQ0KICByZXR1cm4ocmVzdWx0KQ0KfQ0KDQpyb2xsLnN0YXQgPC0gZnVuY3Rpb24oKSB7DQogIHJlc3VsdCA8LSByb2xsKDQsIDYpICMgcm9sbCA0ZDYNCiAgbG93ZXN0IDwtIG1pbihyZXN1bHQkdmFsdWVzKSAjIHRha2UgdGhlIGxvd2VzdCANCiAgcmV0dXJuKHJlc3VsdCRzdW0gLSBsb3dlc3QpICMgYW5kIHJlbW92ZSBpdCBmcm9tIHRoZSBzdW0gDQp9DQpgYGANCg==</div>
 
 
 
