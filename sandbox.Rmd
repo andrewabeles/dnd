@@ -58,29 +58,38 @@ stats$race <- apply(stats, 1, function(i) assign.race())
 ```{r}
 name <- c("dragonborn", "dwarf", "efl", "gnome", "half.elf", "half.orc", "halfling", "human", "tiefling")
 speed <- c(30, 25, 30, 25, 30, 30, 25, 30, 30)
-strength <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
-dexterity <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
-constitution <- c(0, 2, 0, 0, 0, 1, 0, 1, 0)
-wisdom <- c(0, 0, 0, 0, 0, 0, 0, 1, 0)
-intelligence <- c(0, 0, 0, 2, 0, 0, 0, 1, 1)
-charisma <- c(1, 0, 0, 0, 2, 0, 0, 1, 2)
-random1 <- c(0, 0, 0, 0, 1, 0, 0, 0, 0)
-random2 <- c(0, 0, 0, 0, 1, 0, 0, 0, 0)
+strength.mod <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
+dexterity.mod <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
+constitution.mod <- c(0, 2, 0, 0, 0, 1, 0, 1, 0)
+wisdom.mod <- c(0, 0, 0, 0, 0, 0, 0, 1, 0)
+intelligence.mod <- c(0, 0, 0, 2, 0, 0, 0, 1, 1)
+charisma.mod <- c(1, 0, 0, 0, 2, 0, 0, 1, 2)
+random1.mod <- c(0, 0, 0, 0, 1, 0, 0, 0, 0)
+random2.mod <- c(0, 0, 0, 0, 1, 0, 0, 0, 0)
 
 races <- data.frame(
   speed,
-  strength,
-  dexterity,
-  constitution,
-  wisdom,
-  intelligence,
-  charisma,
-  random1,
-  random2
+  strength.mod,
+  dexterity.mod,
+  constitution.mod,
+  wisdom.mod,
+  intelligence.mod,
+  charisma.mod,
+  random1.mod,
+  random2.mod
 )
 
 rownames(races) <- name
 races
+```
+
+```{r}
+stats <- merge(x = stats, y = races, by.x = "race", by.y = "row.names", all = TRUE)
+```
+
+```{r}
+stats$strength <- stats$strength + stats$strength.mod
+stats
 ```
 
 
