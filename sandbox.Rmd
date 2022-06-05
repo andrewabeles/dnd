@@ -17,4 +17,46 @@ roll.stat <- function() {
   lowest <- min(result$values) # take the lowest 
   return(result$sum - lowest) # and remove it from the sum 
 }
+
+roll.stats <- function(n) {
+  X <- matrix(1:n*6, nrow = n, ncol = 6)
+  X[] <- sapply(X, function(ij) roll.stat())
+  df <- as.data.frame(X)
+  names(df) <- c(
+    "strength",
+    "dexterity",
+    "constitution",
+    "intelligence",
+    "wisdom",
+    "charisma"
+  )
+  return(df)
+}
 ```
+
+```{r}
+roll.stats(100)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
