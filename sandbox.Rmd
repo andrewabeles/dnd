@@ -1,0 +1,13 @@
+---
+title: "Sandbox"
+output: html_notebook
+---
+
+```{r}
+roll <- function(n, d) {
+  x <- round(runif(n, min = 1, max = d))
+  return(sum(x))
+}
+
+roll(2, 10) 
+```
