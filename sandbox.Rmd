@@ -26,7 +26,12 @@ races <- c(
 )
 
 roll <- function(n, d) {
-  values <- sample(1:d, n, replace = TRUE) # roll a d-sided die n times
+  if (d > 0) {
+    values <- sample(1:d, n, replace = TRUE) # roll a d-sided die n times
+  }
+  else {
+    values <- c(0, 0)
+  }
   sum <- sum(values)
   result <- list(values, sum)
   names(result) <- c("values", "sum")
@@ -44,19 +49,22 @@ roll.stats <- function(n) {
   X[] <- sapply(X, function(ij) roll.stat())
   df <- as.data.frame(X)
   names(df) <- sapply(abilities, function(a) sprintf("%s.roll", a), USE.NAMES = FALSE)
-  df$race <- apply(df, 1, function(i) sample(races, 1))
+  df$race <- apply(df, 1, function(i) sample(races, 1)) # randomly assign race 
   return(df)
 }
-
-sample(races, 1)
 ```
 
 ```{r}
 set.seed(0)
-stats.rolled <- roll.stats(100)
+stats.rolled <- roll.stats(10000)
+races
 ```
 
 ```{r}
+base.height <- c(66, 48, 54, 35, 57, 58, 31, 56, 57)
+base.weight <- c(175, 130, 90, 36, 110, 140, 36, 110, 110)
+height.mod <- c(8, 4, 10, 4, 8, 10, 4, 10, 8)
+weight.mod <- c(6, 6, 4, 0, 4, 6, 0, 4, 4)
 speed <- c(30, 25, 30, 25, 30, 30, 25, 30, 30)
 strength.mod <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
 dexterity.mod <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
@@ -65,7 +73,11 @@ wisdom.mod <- c(0, 0, 0, 0, 0, 0, 0, 1, 0)
 intelligence.mod <- c(0, 0, 0, 2, 0, 0, 0, 1, 1)
 charisma.mod <- c(1, 0, 0, 0, 2, 0, 0, 1, 2)
 
-racial.mods <- data.frame(
+stats.racial <- data.frame(
+  base.height,
+  base.weight,
+  height.mod,
+  weight.mod,
   speed,
   strength.mod,
   dexterity.mod,
@@ -75,12 +87,12 @@ racial.mods <- data.frame(
   charisma.mod
 )
 
-rownames(racial.mods) <- races
-racial.mods
+rownames(stats.racial) <- races
+stats.racial
 ```
 
 ```{r}
-stats <- merge(x = stats.rolled, y = racial.mods, by.x = "race", by.y = "row.names", all = TRUE)
+stats <- merge(x = stats.rolled, y = stats.racial, by.x = "race", by.y = "row.names", all = TRUE)
 stats
 ```
 
@@ -107,8 +119,31 @@ stats$intelligence <- stats$intelligence.roll + stats$intelligence.mod
 stats$charisma <- stats$charisma.roll + stats$charisma.mod
 ```
 
+```{r}
+calc.height.weight <- function(base.height, base.weight, height.mod, weight.mod) {
+  height.inc <- roll(2, height.mod)$sum
+  weight.inc <- height.inc * roll(2, weight.mod)$sum 
+  height <- base.height + height.inc
+  weight <- base.weight + weight.inc
+  totals <- list(height, weight)
+  names(totals) <- c("height", "weight")
+  return(totals)
+}
 
+stats[, "height"] = NA
+stats[, "weight"] = NA
+for (i in 1:nrow(stats)) {
+  size <- calc.height.weight(stats[i, "base.height"], stats[i, "base.weight"], stats[i, "height.mod"], stats[i, "weight.mod"])
+  stats[i, "height"] = size$height
+  stats[i, "weight"] = size$weight
+}
+```
 
+```{r}
+final.cols <- append(abilities, c("race", "height", "weight", "speed"), 0)
+stats.final <- stats[, final.cols]
+write.csv(stats.final, "stats.csv")
+```
 
 
 
