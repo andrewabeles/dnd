@@ -1,5 +1,5 @@
 # D&D Character Stats Dataset Generator  
-This R notebook simulates the creation of 10,000 D&D characters. The dataset can be used to build machine learning models (e.g. predict character race) or to just practice basic data analysis and visualization.  
+The script generate_stats.R simulates the creation of 10,000 D&D characters. The resulting dataset can be used to build machine learning models (e.g. predict character race) or to just practice basic data analysis and visualization.  
 
 ## Methodology
 1. Generate 10,000 rows of ability scores using the Roll 4d6 Drop Lowest method described here: https://dicecove.com/how-to-roll-for-stats/
