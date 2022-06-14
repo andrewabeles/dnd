@@ -20,11 +20,11 @@ races <- c(
 )
 
 roll <- function(n, d) {
-  if (d > 0) {
-    values <- sample(1:d, n, replace = TRUE) # roll a d-sided die n times
+  if (d == 0) {
+    values <- c(0, 0)
   }
   else {
-    values <- c(0, 0)
+    values <- sample(1:d, n, replace = TRUE) # roll a d-sided die n times
   }
   sum <- sum(values)
   result <- list(values, sum)
@@ -119,4 +119,4 @@ for (i in 1:nrow(stats)) {
 
 final.cols <- append(abilities, c("race", "height", "weight", "speed"), 0)
 stats.final <- stats[, final.cols]
-write.csv(stats.final, "stats.csv")
+write.csv(stats.final, "stats.csv", row.names = FALSE)
