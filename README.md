@@ -7,6 +7,9 @@ The script generate_stats.R simulates the creation of 10,000 D&D characters. The
 3. Apply the racial ability modifiers to the rolled ability scores as described here: https://www.dndbeyond.com/races
 4. Calculate each row's height and weight using the method described here: https://blackcitadelrpg.com/height-age-weight-5e/
 
+## Dataset  
+https://www.kaggle.com/datasets/andrewabeles/dnd-stats
+
 ## Fields 
 - race (dragonborn, dwarf, elf, gnome, half-elf, half-orc, halfling, human, tiefling)
 - height (inches)
