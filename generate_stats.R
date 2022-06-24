@@ -53,7 +53,7 @@ stats.rolled <- roll.stats(10000)
 base.height <- c(66, 48, 54, 35, 57, 58, 31, 56, 57)
 base.weight <- c(175, 130, 90, 36, 110, 140, 36, 110, 110)
 height.mod <- c(8, 4, 10, 4, 8, 10, 4, 10, 8)
-weight.mod <- c(6, 6, 4, 0, 4, 6, 0, 4, 4)
+weight.mod <- c(6, 6, 4, 1, 4, 6, 1, 4, 4)
 speed <- c(30, 25, 30, 25, 30, 30, 25, 30, 30)
 strength.mod <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
 dexterity.mod <- c(2, 0, 0, 0, 0, 2, 0, 1, 0)
@@ -99,20 +99,25 @@ stats$wisdom <- stats$wisdom.roll + stats$wisdom.mod
 stats$intelligence <- stats$intelligence.roll + stats$intelligence.mod
 stats$charisma <- stats$charisma.roll + stats$charisma.mod
 
-calc.height.weight <- function(base.height, base.weight, height.mod, weight.mod) {
+calc.size <- function(race, base.height, base.weight, height.mod, weight.mod) {
   height.inc <- roll(2, height.mod)$sum
-  weight.inc <- height.inc * roll(2, weight.mod)$sum 
+  if (race %in% c("gnome", "halfling")) {
+    weight.inc <- height.inc + weight.mod
+  }
+  else {
+    weight.inc <- height.inc * roll(2, weight.mod)$sum 
+  }
   height <- base.height + height.inc
   weight <- base.weight + weight.inc
-  totals <- list(height, weight)
-  names(totals) <- c("height", "weight")
-  return(totals)
+  size <- list(height, weight)
+  names(size) <- c("height", "weight")
+  return(size)
 }
 
 stats[, "height"] = NA
 stats[, "weight"] = NA
 for (i in 1:nrow(stats)) {
-  size <- calc.height.weight(stats[i, "base.height"], stats[i, "base.weight"], stats[i, "height.mod"], stats[i, "weight.mod"])
+  size <- calc.size(stats[i, "race"], stats[i, "base.height"], stats[i, "base.weight"], stats[i, "height.mod"], stats[i, "weight.mod"])
   stats[i, "height"] = size$height
   stats[i, "weight"] = size$weight
 }
