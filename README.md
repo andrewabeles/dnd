@@ -21,3 +21,6 @@ The script generate_stats.R simulates the creation of 10,000 D&D characters. The
 - wisdom
 - intelligence 
 - charisma 
+
+## Analysis
+[Link to Jupyter notebook analyzing the resulting dataset](https://www.kaggle.com/code/andrewabeles/dnd-race-classification)
